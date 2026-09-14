@@ -1,0 +1,26 @@
+name: Required check collision probe
+
+on:
+  push:
+    branches:
+      - "probe/**"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  collision:
+    name: Collision gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Produce opposite results on the same SHA
+        shell: bash
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            sleep 240
+            exit 0
+          fi
+          exit 1
